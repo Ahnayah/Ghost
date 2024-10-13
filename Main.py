@@ -11,6 +11,19 @@ class Game:
         # Initialize player at the center of the screen
         player_sprite = Player((self.screen_width / 2, self.screen_height / 2))
         self.player = pygame.sprite.GroupSingle(player_sprite)
+    
+    image = pygame.image.load("assets/background.png")
+    def draw_background(self):
+        """Blit the background image to the screen."""
+        size = pygame.transform.scale(self.image, (self.screen_width, self.screen_height))
+        self.screen.blit(size, (0, 0))
+
+    def draw(self):
+        """Render everything to the screen."""
+        self.draw_background()
+        self.player.draw(self.screen)
+        pygame.display.update()
+        
 
     def run(self):
         """Main game loop."""
@@ -28,12 +41,12 @@ class Game:
                 sys.exit()
 
     def update(self):
-        """Update game state."""
         self.player.update()  # Ensure the player sprite gets updated
+
 
     def draw(self):
         """Render everything to the screen."""
-        self.screen.fill((138, 43, 226))  # Fill with a purple background
+        self.draw_background()        
         self.player.draw(self.screen)
         pygame.display.update()
 
@@ -45,6 +58,7 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((screen_width, screen_height))
     pygame.display.set_caption("Spooky Malware")
     clock = pygame.time.Clock()
+    
 
     # Create and run the game
     game = Game(screen, clock)
