@@ -1,4 +1,5 @@
 import pygame
+from Arrow import Arrow
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -9,6 +10,7 @@ class Player(pygame.sprite.Sprite):
         self.ready = True
         self.shoot_time = 0
         self.shoot_cooldown = 600
+        self.arrows  = pygame.sprite.Group()
         
     def get_input(self):
         keys = pygame.key.get_pressed()
@@ -21,14 +23,21 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             self.rect.y += self.speed
         
-        if keys[pygame.K_SPACE]:
+        if keys[pygame.K_SPACE] and self.ready:
             self.shoot_arrow()
             self.ready = False
             self.shoot_time = pygame.time.get_ticks()
-            
+    def recharge(self):
+        if not self.ready:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.shoot_time >= self.shoot_cooldown:
+                self.ready = True
+                
         self.rect.clamp_ip(pygame.display.get_surface().get_rect())
     def shoot_arrow(self):
-        print("shoot")   
+        self.arrows.add(Arrow(self.rect.center, -8, self.rect.bottom)) 
     
     def update(self):
         self.get_input()
+        self.recharge()
+        self.arrows.update()

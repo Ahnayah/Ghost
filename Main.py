@@ -21,12 +21,12 @@ class Game:
     def draw(self):
         """Render everything to the screen."""
         self.draw_background()
+        
+        self.player.sprite.arrows.draw(self.screen)    
         self.player.draw(self.screen)
         pygame.display.update()
         
-
     def run(self):
-        """Main game loop."""
         while True:
             self.handle_events()
             self.update()
@@ -41,22 +41,23 @@ class Game:
                 sys.exit()
 
     def update(self):
-        self.player.update()  # Ensure the player sprite gets updated
+        self.player.update()   
 
 
     def draw(self):
         """Render everything to the screen."""
-        self.draw_background()        
+        self.draw_background()  
+        self.player.sprite.arrows.draw(self.screen)      
         self.player.draw(self.screen)
         pygame.display.update()
-
+        
 if __name__ == "__main__":
     # Pygame setup
     pygame.init()
     screen_width = 600
     screen_height = 400
     screen = pygame.display.set_mode((screen_width, screen_height))
-    pygame.display.set_caption("Spooky Malware")
+    pygame.display.set_caption("Malware Mayhem")
     clock = pygame.time.Clock()
     
 
