@@ -11,13 +11,20 @@ class Player(pygame.sprite.Sprite):
         self.shoot_time = 0
         self.shoot_cooldown = 600
         self.arrows = pygame.sprite.Group()
+        self.facing_right = True  # Track the direction the player is facing
         
     def get_input(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             self.rect.x -= self.speed
+            if not self.facing_right:
+                self.image = pygame.transform.flip(self.image, True, False)
+                self.facing_right = True
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.rect.x += self.speed
+            if self.facing_right:
+                self.image = pygame.transform.flip(self.image, True, False)
+                self.facing_right = False
         if keys[pygame.K_w] or keys[pygame.K_UP]:
             self.rect.y -= self.speed
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
@@ -38,7 +45,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.top = screen_rect.top
         if self.rect.bottom > screen_rect.bottom:
             self.rect.bottom = screen_rect.bottom
-    
+            
     def recharge(self):
         if not self.ready:
             current_time = pygame.time.get_ticks()

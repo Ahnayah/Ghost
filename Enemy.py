@@ -34,7 +34,7 @@ class Malware(pygame.sprite.Sprite):
         # Increase speed over time
         if elapsed_time > 10:
             self.speed = 2  # Increase speed after 10 seconds
-        self.rect.y += self.speed * (1.0 + elapsed_time / 10.0)
+        self.rect.y += self.speed * (1.0 + elapsed_time / 5.0)
 
         # Check for collision with arrows
         arrows = pygame.sprite.spritecollide(self, arrows, True)
@@ -58,7 +58,7 @@ class Spyware(pygame.sprite.Sprite):
         # Calculate elapsed time in seconds
         elapsed_time = (pygame.time.get_ticks() - self.start_time) / 1000.0
         # Increase speed over time
-        self.rect.y += self.speed * (1.0 + elapsed_time / 5.0)  # Increase speed faster
+        self.rect.y += self.speed * (1.0 + elapsed_time / 2.0)  # Increase speed faster
         # Check for collision with arrows
         collided_arrows = pygame.sprite.spritecollide(self, arrows, True)
         if collided_arrows:
